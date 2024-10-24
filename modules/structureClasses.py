@@ -16,6 +16,7 @@ class MenuController:
         obj = pygame.transform.scale(obj, (self.new_width, self.new_height))
 
         return obj
+    
     def setCentre(self, obj, width, height, screen):
 
         obj_width, obj_height = obj.get_size()
@@ -23,7 +24,8 @@ class MenuController:
         screen.blit(obj, (((width - obj_width) // 2), ((height - obj_height) // 2)))
 
         return screen
-    def setObjCoordIncludeScale(self, screen, width, height, obj, moveX=0, moveY=0):
+    
+    def setObjCoordIncludeScale(self, width, height, obj, rect, moveX=0, moveY=0):
         x = width - self.new_width
         y = height - self.new_height
 
@@ -32,26 +34,29 @@ class MenuController:
         if moveY > 0:
             moveY =  int(self.new_height * moveY//100) # procent of height
 
-        screen.blit(obj, (((x//2) + moveX) - obj.get_width(), ((y//2) + moveY) - obj.get_height())) # set coord 0,0 including screen scale (and add user X, Y to move on screen)
+        # set coord 0,0 including screen scale (and add user X, Y to move on screen)
+        coordX = ((x // 2) + moveX) - obj.get_width() // 2
+        coordY = ((y // 2) + moveY) - obj.get_height() // 2
 
-        return screen
+        rect.topleft = (coordX, coordY)
 
-class ManualObjects:
-    def __init__(self):
-        pygame.init()
-    def button(self, TXTsize, text="button text", fontPath="Arial"):
-        font = pygame.font.Font(fontPath, TXTsize)
-        text = font.render(text, 1, (0, 0, 0))
-        
-        button_surface = pygame.Surface((200, 50), pygame.SRCALPHA)
+        return rect
+    
+    def button(self, TXTsize, text="button text", fontPath="Arial", textColor=(0, 0, 0)):
+        size = int(self.new_width * TXTsize//100)
+        font = pygame.font.Font(fontPath, size)
+
+        text = font.render(text, 1, textColor)
+        text_width, text_height = text.get_size()
+
+        # Set the button sizes to match the text
+        button_surface = pygame.Surface((text_width + 20, text_height + 20), pygame.SRCALPHA)  # +20 for indents
 
         text_rect = text.get_rect(
             center=(button_surface.get_width() /2, 
             button_surface.get_height()/2))
-
-        button_rect = pygame.Rect(125, 125, 150, 50)
+        
+        button_rect = button_surface.get_rect()
+        button_surface.blit(text, text_rect)
 
         return {'text': text,'textRect' : text_rect, 'btn' : button_rect, 'surf' : button_surface}
-
-
-    
