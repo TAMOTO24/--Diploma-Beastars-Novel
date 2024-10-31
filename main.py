@@ -2,9 +2,10 @@ import os
 import pygame
 from modules.structureClasses import MenuController
 # from modules.structureClasses import ManualObjects
+from router import main
 
 pygame.init()
-SIZEH, SIZEW = 920, 1360
+SIZEH, SIZEW = 500, 960
 
 min_width, min_height = 500, 800
 
@@ -17,11 +18,14 @@ menuBG_obj = MC.structureBGSize(menuBG, SIZEW, SIZEH)
 
 running = True
 while running:
+    mouseButtonDown = False
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.VIDEORESIZE:
             menuBG_obj = MC.structureBGSize(menuBG, event.w, event.h)
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouseButtonDown = True
                 
 
     CURRENTW, CURRENTH = pygame.display.get_window_size()
@@ -33,7 +37,9 @@ while running:
         CURRENTW, CURRENTH, startBtn['surf'], startBtn['btn'], 85, 9
     )
 
-    if startBtn['btn'].collidepoint(mouse_pos):
+    if startBtn['btn'].collidepoint(mouse_pos) and mouseButtonDown:
+        main(CURRENTW,  CURRENTH, screen)
+    elif startBtn['btn'].collidepoint(mouse_pos):
         startBtn['text'] = MC.button(5, "START", r'assets/Font/Fonstars-4Bo0p.otf', textColor=(255, 0, 0))['text']
 
     startBtn['surf'].blit(startBtn['text'], startBtn['textRect']) #set text in btn surface
