@@ -39,7 +39,7 @@ def main(SIZEW, SIZEH, screen):
             if obj['btn'].collidepoint(mouse_pos) and mouseButtonDown:
                 print(i)
             if obj['btn'].collidepoint(mouse_pos):
-                obj['text'] = MC.button(4, i, alpha=100, surfX=150, surfY=0, textColor=(255, 0, 0))['text']
+                obj['text'] = MC.button(4, i, alpha=100, surfX=150, surfY=0, textColor=(255, 0, 49))['text']
                 obj['surf'].blit(obj['text'], obj['textRect'])
 
             screen.blit(obj['surf'], obj['btn'])
