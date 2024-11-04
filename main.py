@@ -32,9 +32,15 @@ while running:
     mouse_pos = pygame.mouse.get_pos()
     screen = MC.setCentre(menuBG_obj, CURRENTW, CURRENTH, screen)
 
+    settingBtn = MC.button(5, "Settings", r'assets/Font/Fonstars-4Bo0p.otf')
+
+    settingBtn['btn'] = MC.setObjCoordIncludeScale(
+        CURRENTW, CURRENTH, settingBtn['btn'], 70, 15
+    )
+
     startBtn = MC.button(5, "START", r'assets/Font/Fonstars-4Bo0p.otf')
     startBtn['btn'] = MC.setObjCoordIncludeScale(
-        CURRENTW, CURRENTH, startBtn['surf'], startBtn['btn'], 85, 9
+        CURRENTW, CURRENTH, startBtn['btn'], 70, 5
     )
 
     if startBtn['btn'].collidepoint(mouse_pos) and mouseButtonDown:
@@ -43,8 +49,10 @@ while running:
         startBtn['text'] = MC.button(5, "START", r'assets/Font/Fonstars-4Bo0p.otf', textColor=(255, 0, 0))['text']
 
     startBtn['surf'].blit(startBtn['text'], startBtn['textRect']) #set text in btn surface
+    settingBtn['surf'].blit(settingBtn['text'], settingBtn['textRect'])
     
     screen.blit(startBtn['surf'], startBtn['btn'])
+    screen.blit(settingBtn['surf'], settingBtn['btn'])
     pygame.display.flip()
 
 pygame.quit()
