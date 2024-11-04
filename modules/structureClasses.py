@@ -24,6 +24,12 @@ class MenuController:
         screen.blit(obj, (((width - obj_width) // 2), ((height - obj_height) // 2)))
 
         return screen
+    def setNewScaledSize(self, width, height):
+        new_width =  self.new_width * width//100
+        new_height = self.new_height * height//100
+        
+
+        return (new_width, new_height)
 
     
     def setObjCoordIncludeScale(self, width, height, rect, moveX=0, moveY=0):
@@ -31,16 +37,16 @@ class MenuController:
         y = height - self.new_height
 
         if moveX > 0:
-            moveX =  int(self.new_width * moveX//100) # procent of width
+            moveX =  int(self.new_width * moveX/100) # procent of width
         if moveY > 0:
-            moveY =  int(self.new_height * moveY//100) # procent of height
+            moveY =  int(self.new_height * moveY/100) # procent of height
 
         # set coord 0,0 including screen scale (and add user X, Y to move on screen)
         coordX = ((x // 2) + moveX)
         coordY = ((y // 2) + moveY)
 
-        coordX = max(moveX, coordX)
-        coordY = max(moveY, coordY)
+        # coordX = max(moveX, coordX)
+        # coordY = max(moveY, coordY)
 
         rect.topleft = (coordX, coordY)
 

@@ -2,6 +2,19 @@ import pygame
 from modules.structureClasses import MenuController
 import pygame_gui
 
+def setElementScale(MC, manager, CURRENTW, CURRENTH, element, x, y, Text="Text"):
+    
+    a = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect(0, 0, 200, 50),
+        text=Text,
+        manager=manager,
+    )
+    element.kill()
+    a.set_dimensions(MC.setNewScaledSize(20, 10))
+    a.set_relative_position(MC.setObjCoordIncludeScale(CURRENTW, CURRENTH, element.relative_rect, x, y,))
+
+    return a
+
 def main(SIZEW, SIZEH, screen):
     MC = MenuController()
 
@@ -12,17 +25,19 @@ def main(SIZEW, SIZEH, screen):
     menuBG = pygame.image.load(r'assets/Background/Preview1.png')
     menuBG_obj = MC.structureBGSize(menuBG, SIZEW, SIZEH)
 
-    manager = pygame_gui.UIManager((SIZEW, SIZEH))
+    manager = pygame_gui.UIManager((SIZEW, SIZEH), 'theme.json')
     clock = pygame.time.Clock()
 
+    btn_size = MC.setNewScaledSize(20, 10)
+
     button_back = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect(0, 0, 200, 50),  # Позиция и размер кнопки "Back"
+        relative_rect=pygame.Rect(0, 0, btn_size[0], btn_size[1]),  # Позиция и размер кнопки "Back"
         text='Back',
         manager=manager
     )
 
     button_select = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect(SIZEW//2 - 200//2, SIZEH//2, 200, 50),  # Позиция и размер кнопки "Select"
+        relative_rect=pygame.Rect(0, 0, btn_size[0], btn_size[1]),  # Позиция и размер кнопки "Select"
         text='Select',
         manager=manager
     )
@@ -37,9 +52,12 @@ def main(SIZEW, SIZEH, screen):
                 pygame.quit()
             if event.type == pygame.VIDEORESIZE:
                 menuBG_obj = MC.structureBGSize(menuBG, event.w, event.h)
+                manager.set_window_resolution((event.w, event.h))
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouseButtonDown = True
-        CURRENTW, CURRENTH = pygame.display.get_window_size()        
+        CURRENTW, CURRENTH = pygame.display.get_window_size()
+        
         mouse_pos = pygame.mouse.get_pos()
         screen = MC.setCentre(menuBG_obj, CURRENTW, CURRENTH, screen)
 
@@ -76,8 +94,8 @@ def main(SIZEW, SIZEH, screen):
                 MC.setButtonImage(screen, r'assets/Background/Room701Grouph.png', obj['btn'], img_coord=(50,50))
             screen.blit(obj['surf'], obj['btn'])
         
-        button_back.set_position(MC.setObjCoordIncludeScale(CURRENTW, CURRENTH, button_back.relative_rect, 20, 50).topleft) ###Fix
-        button_select.set_position(MC.setObjCoordIncludeScale(CURRENTW, CURRENTH, button_select.relative_rect, 50, 50).topleft)####fix
+        button_back = setElementScale(MC, manager, CURRENTW, CURRENTH, button_back, 20, 70)
+        button_select = setElementScale(MC, manager, CURRENTW, CURRENTH, button_select, 50, 70)
 
         manager.update(time_delta)
         manager.draw_ui(screen)

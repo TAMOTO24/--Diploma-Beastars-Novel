@@ -1,0 +1,22 @@
+{
+    "button":
+    {
+        "colours":
+         {
+             "normal_text": "#000000",
+             "hovered_text": "#FF0031",
+             "selected_text": "#FFFFFF",
+             "normal_bg": "#E6E6E6",
+             "normal_border": "#E6E6E6",
+             "hovered_border": "#FF0031",
+             "hovered_bg": "#D2D2D2",
+             "selected_bg": "#FF0031"
+         },
+        "font":
+        {
+            "size": "30",
+            "bold": "0",
+            "italic": "1"
+        }
+    }
+}
