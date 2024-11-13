@@ -2,7 +2,8 @@ import os
 import pygame
 from modules.structureClasses import MenuController
 # from modules.structureClasses import ManualObjects
-from router import main
+import router
+import settings
 
 pygame.init()
 SIZEH, SIZEW = 500, 960
@@ -19,11 +20,14 @@ menuBG_obj = MC.structureBGSize(menuBG, SIZEW, SIZEH)
 running = True
 while running:
     mouseButtonDown = False
+
+    screen.fill((0, 0, 0))#clear screen
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        if event.type == pygame.VIDEORESIZE:
-            menuBG_obj = MC.structureBGSize(menuBG, event.w, event.h)
+        # if event.type == pygame.VIDEORESIZE:
+        #     pass
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouseButtonDown = True
                 
@@ -31,7 +35,7 @@ while running:
     CURRENTW, CURRENTH = pygame.display.get_window_size()
     mouse_pos = pygame.mouse.get_pos()
     screen = MC.setCentre(menuBG_obj, CURRENTW, CURRENTH, screen)
-
+    menuBG_obj = MC.structureBGSize(menuBG, CURRENTW, CURRENTH)
     settingBtn = MC.button(5, "Settings", r'assets/Font/Fonstars-4Bo0p.otf')
 
     settingBtn['btn'] = MC.setObjCoordIncludeScale(
@@ -44,9 +48,17 @@ while running:
     )
 
     if startBtn['btn'].collidepoint(mouse_pos) and mouseButtonDown:
-        main(CURRENTW,  CURRENTH, screen)
+       router.main(CURRENTW,  CURRENTH, screen)
+       continue
     elif startBtn['btn'].collidepoint(mouse_pos):
         startBtn['text'] = MC.button(5, "START", r'assets/Font/Fonstars-4Bo0p.otf', textColor=(255, 0, 0))['text']
+
+        
+    if settingBtn['btn'].collidepoint(mouse_pos) and mouseButtonDown:
+       settings.main(CURRENTW,  CURRENTH, screen)
+       continue
+    elif settingBtn['btn'].collidepoint(mouse_pos):
+        settingBtn['text'] = MC.button(5, "SETTINGS", r'assets/Font/Fonstars-4Bo0p.otf', textColor=(255, 0, 0))['text']
 
     startBtn['surf'].blit(startBtn['text'], startBtn['textRect']) #set text in btn surface
     settingBtn['surf'].blit(settingBtn['text'], settingBtn['textRect'])

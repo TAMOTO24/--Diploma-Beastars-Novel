@@ -14,9 +14,14 @@
          },
         "font":
         {
+            "name": "Comic Sans MS",
             "size": "30",
             "bold": "0",
             "italic": "1"
-        }
+        },
+        "misc":
+         {
+             "border_width": "2"
+         }
     }
 }
